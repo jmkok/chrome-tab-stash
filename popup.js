@@ -4,15 +4,6 @@
 
 var stash_list;
 
-function mylog(txt) {
-  $("ul#status").append('<li>'+txt+'</li>');
-  console.log(txt);
-}
-function message(txt) {
-  $("ul#status").append('<li>'+txt+'</li>');
-  console.log(txt);
-}
-
 function get_group_index() {
 	return $('select#group').prop('selectedIndex');
 }
@@ -25,7 +16,7 @@ function add_to_stash(title, url) {
 	//~ mylog(stash_list);
 	stash_list.groups[idx].items.push(item);
 	//~ mylog(stash_list);
-	save_stash_list();
+	store_stash_list();
 }
 
 function park() {
@@ -66,19 +57,6 @@ function add(id,title,url) {
 	$("dl#list").append("<dd><span id='"+id+"' class='open' data-url='"+url+"'>"+title+"</span></dd>");
 }
 
-function save_stash_list() {
-	mylog("save_stash_list()");
-	mylog(stash_list);
-	if (!stash_list) {
-		mylog('Error: No value specified');
-		return;
-	}
-	mylog('saving...');
-	chrome.storage.sync.set({'tab-stash': stash_list}, function() {
-		mylog('Settings saved');
-	});
-}
-
 function add_item(item) {
 	//~ mylog("add_item");
 	add(1,item.title,item.url);
@@ -100,60 +78,22 @@ function populate(stash_list) {
 	$('select#group').prop('selectedIndex', stash_list.group_index);
 }
 
-function read_stash_list() {
-	mylog("read_stash_list()");
-	mylog('reading...');
-	chrome.storage.sync.get("tab-stash",function(data) {
-		mylog('Settings read');
-		mylog(data);
-		stash_list = data["tab-stash"];
-		mylog(stash_list);
-		//~ mylog(stash_list.groups);
-		//~ mylog(stash_list.groups[2]);
-		//~ mylog(stash_list.groups[2].title);
-		//~ mylog(stash_list.groups[2].items);
-		if (stash_list)
-			populate(stash_list);
-	});
-}
-
-function setup_default() {
-	var list =
-		{
-			"group_index":1,
-			"groups": [
-			{"title":"Tech","items":[
-				{'title':"Tweakers",'url':"http://tweakers.net/"},
-				{'title':"Distrowatch",'url':"http://distrowatch.com/"},
-				{'title':"Phoronix",'url':"http://www.phoronix.com/"},
-			]},
-			{"title":"Cars","items":[
-				{'title':"Saab",'url':"http://www.saab.com/"},
-				{'title':"Volvo",'url':"http://www.volvo.com/"},
-				{'title':"BMW",'url':"http://www.bmw.com/"},
-			]},
-			{"title":"Other","items":[
-			]},
-		]}
-	;
-	stash_list = list;
-	mylog(list);
-	save_stash_list();
-}
-
 function select_group() {
 	stash_list['group_index'] = $(this).prop('selectedIndex');
-	save_stash_list(stash_list);
+	store_stash_list(stash_list);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function main() {
   mylog("addEventListener()");
 
 	/* Attach the functions */
   $("button.close").bind( "click", park);
-  $("button.default").bind( "click", setup_default);
+  $("button.default").bind( "click", default_stash_list);
   $('select#group').bind( "change", select_group);
 
 	/* Read the stash list and populate the items */
-	read_stash_list();
-});
+	read_stash_list(populate);
+}
+
+/* c style */
+document.addEventListener('DOMContentLoaded', main);
