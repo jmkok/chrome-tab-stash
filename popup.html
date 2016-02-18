@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+        width: 300px;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 500px;
+      }
+      button,select {
+				width:100%;
+			}
+			ul#buttons li {
+				list-style-type: none;
+				margin:0px;
+				padding:2px;
+			}
+			ul#buttons li.header {
+				text-align:center;
+				color:white;
+				background-color:blue;
+			}
+			ul#buttons {
+				margin:0px;
+				padding:0px;
+			}
+			span.open {
+				cursor:pointer;
+				color:blue;
+			}
+    </style>
+		<script src="jquery-1.12.0.min.js"></script>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+		<ul id="buttons">
+			<li><select id="group"></select></li>
+			<li><button class="close">Stash and close</button></li>
+			<li><button class="default">Setup default</button></li>
+			<li class="header">Restore</li>
+		</ul>
+    <dl id="list"></dl>
+    <ul id="status"></ul>
+    <img id="image-result" hidden>
+  </body>
+</html>
+

@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+
+	"name": "Tab stasher",
+	"description": "This extension stashes pages for later use",
+	"version": "0.0",
+
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html",
+		"default_title": "Click here!"
+	},
+	"permissions": [
+		"storage",
+		"tabs",
+		"activeTab"
+	]
+}
