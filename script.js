@@ -58,5 +58,52 @@ function default_stash_list() {
 	;
 	stash_list = list;
 	mylog(list);
+	populate(stash_list);
 	store_stash_list();
+}
+
+function restore() {
+	mylog("restore()");
+	mylog("data-id: "+$(this).attr("data-id"));
+	mylog("data-url: "+$(this).attr("data-url"));
+	var url = $(this).attr("data-url");
+	var newtab = {
+		url: url,
+	};
+	chrome.tabs.create(newtab);
+}
+
+function remove_from_stash_list(title,url) {
+	var removed = 0;
+	mylog("remove_from_stash_list("+title+","+url+")");
+	stash_list.groups.forEach(function (group) {
+		group.items.forEach(function (item) {
+			mylog("item:"+item.title);
+			if (item.url == url) {
+				mylog("remove:"+item.title);
+				var index = group.items.indexOf(item);
+				mylog("index:"+index);
+				group.items.splice(index, 1);
+				removed++;
+			}
+		});
+	});
+	if (removed) {
+		populate(stash_list);
+		store_stash_list();
+	}
+}
+
+function remove() {
+	mylog("remove()");
+	mylog("data-title: "+$(this).attr("data-title"));
+	mylog("data-id: "+$(this).attr("data-id"));
+	mylog("data-url: "+$(this).attr("data-url"));
+	var title = $(this).attr("data-title");
+	var url = $(this).attr("data-url");
+	remove_from_stash_list(title,url);
+	//~ var newtab = {
+		//~ url: url,
+	//~ };
+	//~ chrome.tabs.create(newtab);
 }

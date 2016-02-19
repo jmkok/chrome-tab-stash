@@ -39,19 +39,6 @@ function park() {
   });
 }
 
-function restore(url) {
-	mylog("restore()");
-	mylog("this: "+this);
-	mylog("title: "+$(this).html());
-	mylog("id: "+$(this).attr("id"));
-	mylog("data-url: "+$(this).attr("data-url"));
-	var url = $(this).attr("data-url");
-	var newtab = {
-		url: url,
-	};
-	chrome.tabs.create(newtab);
-}
-
 function add(id,title,url) {
 	//~ $("ul#buttons").append("<li><button id='"+id+"' class='open' data-url='"+url+"'>"+title+"</button></li>");
 	$("dl#list").append("<dd><span id='"+id+"' class='open' data-url='"+url+"'>"+title+"</span></dd>");

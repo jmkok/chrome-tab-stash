@@ -27,7 +27,7 @@ ul#buttons {
 	margin:0px;
 	padding:0px;
 }
-span.open {
+span.open,img.remove {
 	cursor:pointer;
 	color:blue;
 }
